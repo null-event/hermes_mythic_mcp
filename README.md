@@ -74,6 +74,6 @@ Tool outputs are returned as plain text or JSON-like strings, wrapped in separat
 
 ## Acknowledgments
 
-- [Preliminary POC for Mythic API integration via MCP server](https://github.com/xpn/mythic_mcp)
+- [Preliminary POC for Mythic (Windows) Agent Integration via MCP server](https://github.com/xpn/mythic_mcp)
 - [Hermes Mythic Agent](https://github.com/MythicAgents/hermes)
 - [Mythic C2 Framework](https://github.com/its-a-feature/Mythic)
