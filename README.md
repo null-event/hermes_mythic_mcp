@@ -17,7 +17,7 @@ This is an MCP server that exposes Hermes Mythic C2 tasks for autonomous reconna
       "command": "/Users/<you>/.local/bin/uv",
       "args": [
         "--directory",
-        "/full/path/to/mythic_mcp/",
+        "/full/path/to/hermes_mythic_mcp/",
         "run",
         "main.py",
         "<mythic_admin>",
