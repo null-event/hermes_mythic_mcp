@@ -5,7 +5,7 @@ This is an MCP server that exposes Hermes Mythic C2 tasks for autonomous reconna
 ## Requirements
 
 - `uv` and `python3`
-- A reachable Mythic server and credentials
+- Credentials to a reachable Mythic server with Hermes agent profile installed
 - An MCP client (e.g., TRAE, Claude Desktop, etc.)
 
 ## TRAE/Cursor/Claude/Etc. Configuration
