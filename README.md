@@ -1,41 +1,29 @@
 # Mythic MCP
 
-Mythic MCP is an MCP server that exposes Mythic C2 tasks to LLM clients for autonomous reconnaissance and operations. The included tools focus on macOS agent operations such as context enumeration, process/app listing, permissions checks, and file operations.
+This is an MCP server that exposes Hermes Mythic C2 tasks for autonomous reconnaissance and macOS red team operations. The included tools focus on macOS Hermes agent operations such as context enumeration, process/app listing, permissions checks, and file operations.
 
 ## Requirements
 
 - `uv` and `python3`
 - A reachable Mythic server and credentials
-- An MCP client (e.g., Claude Desktop)
+- An MCP client (e.g., TRAE, Claude Desktop, etc.)
 
-## Run Locally
-
-Use `uv` to run the server with your Mythic credentials and endpoint:
-
-```
-uv --directory /full/path/to/mythic_mcp run main.py <username> <password> <host> <port>
-```
-
-Arguments come from `main.py` and are required to initialize the Mythic API client.
-
-## Claude Desktop Configuration
-
-Add the server to `claude_desktop_config.json`:
+## TRAE/Cursor/Claude/Etc. Configuration
 
 ```
 {
   "mcpServers": {
-    "mythic_mcp": {
+    "hermes_mythic_mcp": {
       "command": "/Users/<you>/.local/bin/uv",
       "args": [
         "--directory",
         "/full/path/to/mythic_mcp/",
         "run",
         "main.py",
-        "<username>",
-        "<password>",
-        "<host>",
-        "<port>"
+        "<mythic_admin>",
+        "<mythic_password>",
+        "<mythic_host>",
+        "<mythic_port>"
       ]
     }
   }
@@ -55,23 +43,22 @@ All tools are defined in `main.py` and call into Mythic via `lib/mythic_api.py`.
 
 - `get_all_payloads` — List all payloads registered in Mythic
 - `get_all_agents` — List currently active callbacks/agents
-- `read_file(agent_id, file_path)` — Read a file on the target via Mythic `cat`
-- `run_shell_command(agent_id, command_line)` — Execute a shell command (`shell`)
+- `read_file(agent_id, file_path)` — Read a file on the target via Mythic API
+- `run_shell_command(agent_id, command_line)` — Execute a shell command
 - `upload_file(agent_id, file_name, remote_path, content)` — Upload a file (base64 content)
-- `get_env(agent_id, command)` — Return environment variables for the session (`env`)
-- `fda_check(agent_id, command)` — Check Full Disk Access TCC state
-- `accessibility_check(agent_id, command)` — Check Accessibility (AX) permission state
-- `get_execution_context(agent_id, command)` — Report execution context and bundle ID
-- `ifconfig(agent_id, command)` — Enumerate IP addresses for the current session
-- `list_apps(agent_id, command)` — List running GUI applications (`NSRunningApplication`)
-- `list_processes(agent_id, command)` — Enumerate running processes (`ps`)
-- `take_screenshot(agent_id, command)` — Capture screenshot (requires Screen Recording)
+- `get_env(agent_id, command)` — Return environment variables for the session
+- `fda_check(agent_id, command)` — Check Full Disk Access (FDA)
+- `accessibility_check(agent_id, command)` — Use AXIsProcessTrusted() to determine Accessibility permission
+- `get_execution_context(agent_id, command)` — Read environment variables to determine payload execution context
+- `ifconfig(agent_id, command)` — Enumerate IP addresses information
+- `list_apps(agent_id, command)` — List running applications with NSApplication.RunningApplications
+- `list_processes(agent_id, command)` — Enumerate running processes
+- `take_screenshot(agent_id, command)` — Capture screenshot (requires Screen Recording permissions)
 - `tcc_folder_checker(agent_id, command)` — Probe TCC-protected folders using mdquery
 - `whoami(agent_id, command)` — Report current user context
 
 Notes:
 - Most tools expect an `agent_id` and a `command` string (often a simple label like `"env"` or `"ps"`).
-- `tcc_folder_checker` requires an agent that supports this command and may fail without FDA.
 
 ## Typical Recon Workflow
 
@@ -85,6 +72,8 @@ Notes:
 
 Tool outputs are returned as plain text or JSON-like strings, wrapped in separators for easy parsing by MCP clients.
 
-## Security
+## Acknowledgments
 
-Operate within user consent and environment policy. TCC-protected locations (Desktop, Documents, Downloads) and UI automation require appropriate permissions (`Full Disk Access`, `Accessibility`, `Screen Recording`).
+- [Preliminary POC for Mythic API integration via MCP server](https://github.com/xpn/mythic_mcp)
+- [Hermes Mythic Agent](https://github.com/MythicAgents/hermes)
+- [Mythic C2 Framework](https://github.com/its-a-feature/Mythic)
