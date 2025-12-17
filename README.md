@@ -1,4 +1,4 @@
-# Mythic MCP
+# Hermes Mythic MCP
 
 This is an MCP server that exposes Hermes Mythic C2 tasks for autonomous reconnaissance and macOS red team operations. The included tools focus on macOS Hermes agent operations such as context enumeration, process/app listing, permissions checks, and file operations.
 
